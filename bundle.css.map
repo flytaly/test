@@ -1,0 +1,18 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "../src/App.svelte",
+    "../src/Link.svelte",
+    "../src/pages/Home.svelte",
+    "../src/pages/About.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n  import Link from \"./Link.svelte\";\n  import Route from \"./Route.svelte\";\n  import { onMount } from \"svelte\";\n  import { curRoute } from \"./store\";\n  export let name;\n  // onMount(() => {\n  console.log(\"->\", window.location.hash);\n  curRoute.set(window.location.hash);\n  // });\n</script>\n\n<style>\n  ul {\n    display: flex;\n    list-style: none;\n    padding: 0;\n    margin: 0;\n  }\n  .links :global(a:hover) {\n    background-color: lightblue;\n  }\n\n  .links :global(a) {\n    color: green;\n    outline: 1px goldenrod dashed;\n  }\n</style>\n\n<!-- Navigation goes here -->\n<ul class=\"links\">\n  <li>\n    <Link page={{ path: '/' }}>Home</Link>\n  </li>\n  <li>\n    <Link page={{ path: '#about' }}>About</Link>\n  </li>\n</ul>\n\n<!-- Main container goes here -->\n<Route />\n",
+    "<script>\n  import { curRoute } from \"./store\";\n  export let page;\n\n  function redirectTo(event) {\n    curRoute.set(event.target.hash);\n    window.history.pushState(\n      { path: page.path },\n      \"\",\n      window.location.origin + page.path\n    );\n  }\n</script>\n\n<style>\n  a {\n    text-transform: uppercase;\n    text-decoration: underline;\n    padding: 1rem;\n  }\n</style>\n\n<a href={page.path} on:click|preventDefault={redirectTo}>\n  <slot />\n</a>\n",
+    "<script>\n  import { onDestroy } from \"svelte\";\n  let seconds = 0;\n  const interval = setInterval(() => {\n    seconds = seconds + 1;\n  }, 1000);\n  onDestroy(() => {\n    clearInterval(interval);\n  });\n</script>\n\n<style>\n  h1 {\n    color: purple;\n  }\n</style>\n\n<h1>This is Home page</h1>\n<p>It's been running for {seconds} seconds</p>\n",
+    "<script>\n</script>\n\n<style>\n\th1 {\n\t\tcolor: purple;\n\t}\n</style>\n\n<h1>This is About page</h1>"
+  ],
+  "names": [],
+  "mappings": "AAaE,EAAE,cAAC,CAAC,AACF,OAAO,CAAE,IAAI,CACb,UAAU,CAAE,IAAI,CAChB,OAAO,CAAE,CAAC,CACV,MAAM,CAAE,CAAC,AACX,CAAC,AACD,oBAAM,CAAC,AAAQ,OAAO,AAAE,CAAC,AACvB,gBAAgB,CAAE,SAAS,AAC7B,CAAC,AAED,oBAAM,CAAC,AAAQ,CAAC,AAAE,CAAC,AACjB,KAAK,CAAE,KAAK,CACZ,OAAO,CAAE,GAAG,CAAC,SAAS,CAAC,MAAM,AAC/B,CAAC;ACXD,CAAC,cAAC,CAAC,AACD,cAAc,CAAE,SAAS,CACzB,eAAe,CAAE,SAAS,CAC1B,OAAO,CAAE,IAAI,AACf,CAAC;ACPD,EAAE,eAAC,CAAC,AACF,KAAK,CAAE,MAAM,AACf,CAAC;ACVF,EAAE,cAAC,CAAC,AACH,KAAK,CAAE,MAAM,AACd,CAAC"
+}
